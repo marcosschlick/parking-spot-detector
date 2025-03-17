@@ -1,0 +1,6 @@
+venv/
+dataset/
+detector-vagas-hotwheels-dataset/
+runs/
+yolo11n.pt
+yolov8n.pt
