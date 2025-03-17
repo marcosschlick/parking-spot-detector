@@ -1,0 +1,5 @@
+train: images/train
+val: images/val
+
+nc: 2  # Número de classes (vaga_livre e vaga_ocupada)
+names: ['vaga_livre', 'vaga_ocupada']
