@@ -1,4 +1,4 @@
-# Detector de Vagas para Hot Wheels
+# Detector de Vagas para HotWheels
 
 Este projeto utiliza o YOLOv8 para detectar vagas de estacionamento em um ambiente simulado, onde pistas de papel representam o cenário e carrinhos Hot Wheels atuam como veículos. Inclui scripts completos para processamento de dados, treinamento do modelo e inferência em vídeos, oferecendo uma solução prática e educativa para sistemas de detecção em pequena escala.
 
@@ -11,8 +11,8 @@ Este projeto utiliza o YOLOv8 para detectar vagas de estacionamento em um ambien
 Clone o repositório para o seu ambiente local:
 
 ```bash
-git clone https://github.com/marcosschlick/detector-vagas-estacionamento.git
-cd detector-vagas-estacionamento
+git clone https://github.com/marcosschlick/detector-vagas-hotwheels.git
+cd detector-vagas-hotwheels
 ```
 
 ---
