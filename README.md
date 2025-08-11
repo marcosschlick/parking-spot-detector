@@ -32,7 +32,7 @@ yolo train data=config.yaml model=yolov8n.pt epochs=50 imgsz=640
 ### 5. Testar
 **Com vídeo:**
 ```bash
-yolo predict model=runs/detect/train/weights/best.pt source=detector-vagas-hotwheels-dataset/test/videos/test_hotwheels_01.mp4
+yolo predict model=runs/detect/train/weights/best.pt source=detector-vagas-hotwheels-dataset/test/videos/test_hotwheels_01.mp4 show=True
 ```
 
 **Com câmera em tempo real:**
