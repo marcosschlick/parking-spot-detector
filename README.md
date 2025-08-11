@@ -26,7 +26,7 @@ python src/data_processing/organize_dataset.py
 
 ### 4. Treinar Modelo
 ```bash
-yolo train data=config.yaml model=yolov8n.pt epochs=50 imgsz=640
+yolo train data=config.yaml model=yolov8n.pt epochs=30 imgsz=640
 ```
 
 ### 5. Testar
