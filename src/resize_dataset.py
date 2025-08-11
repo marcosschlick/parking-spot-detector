@@ -2,68 +2,96 @@ import cv2
 import os
 import json
 
-# Caminhos atualizados
-image_dir = "detector-vagas-hotwheels-dataset/raw/images"  # Imagens brutas
-annotation_dir = "detector-vagas-hotwheels-dataset/raw/annotations"  # Anotações brutas
-output_image_dir = "detector-vagas-hotwheels-dataset/processed/images_resized"  # Imagens redimensionadas
-output_annotation_dir = "detector-vagas-hotwheels-dataset/processed/annotations_resized"  # Anotações redimensionadas
+INPUT_IMAGE_DIR = "detector-vagas-hotwheels-dataset/raw/images"
+OUTPUT_IMAGE_DIR = "detector-vagas-hotwheels-dataset/processed/images_resized" 
 
-# Cria os diretórios de saída se não existirem
-os.makedirs(output_image_dir, exist_ok=True)
-os.makedirs(output_annotation_dir, exist_ok=True)
+INPUT_ANNOTATION_DIR = "detector-vagas-hotwheels-dataset/raw/annotations"  
+OUTPUT_ANNOTATION_DIR = "detector-vagas-hotwheels-dataset/processed/annotations_resized" 
 
-# Novo tamanho (largura, altura)
-new_size = (640, 853)  # ou (480, 640)
+TARGET_SIZE = 640
+PADDING_COLOR = (0, 0, 0) 
 
-# Função para redimensionar imagens e ajustar bounding boxes
-def resize_images_and_annotations(image_dir, annotation_dir, output_image_dir, output_annotation_dir, new_size):
-    for image_name in os.listdir(image_dir):
-        if not image_name.endswith(".jpg"):
+os.makedirs(OUTPUT_IMAGE_DIR, exist_ok=True)
+os.makedirs(OUTPUT_ANNOTATION_DIR, exist_ok=True)
+
+def process_image(image_path):
+    """load and resize image with aspect ratio preservation"""
+    image = cv2.imread(image_path)
+    if image is None:
+        return None, None
+    
+    h, w = image.shape[:2]
+    
+    # calculate scaling factors
+    scale = min(TARGET_SIZE / w, TARGET_SIZE / h)
+    new_w = int(w * scale)
+    new_h = int(h * scale)
+    
+    # resize image
+    resized = cv2.resize(image, (new_w, new_h))
+    
+    # apply padding
+    pad_x = (TARGET_SIZE - new_w) // 2
+    pad_y = (TARGET_SIZE - new_h) // 2
+    padded = cv2.copyMakeBorder(
+        resized, pad_y, pad_y, pad_x, pad_x, 
+        cv2.BORDER_CONSTANT, value=PADDING_COLOR
+    )
+    
+    return padded, (scale, pad_x, pad_y)
+
+def process_annotation(annotation_path, scale_factors):
+    """adjust annotations with scaling and padding"""
+    with open(annotation_path, 'r') as f:
+        data = json.load(f)
+    
+    scale, pad_x, pad_y = scale_factors
+    
+    for shape in data['shapes']:
+        for point in shape['points']:
+            # apply scaling
+            point[0] = point[0] * scale
+            point[1] = point[1] * scale
+            
+            # apply padding
+            point[0] += pad_x
+            point[1] += pad_y
+    
+    return data
+
+def main():
+    """process all images and annotations"""
+    for img_name in os.listdir(INPUT_IMAGE_DIR):
+        if not img_name.lower().endswith('.jpg'):
             continue
-
-        print(f"Processando {image_name}...")
-
-        # Carrega a imagem
-        image_path = os.path.join(image_dir, image_name)
-        image = cv2.imread(image_path)
-        if image is None:
-            print(f"Erro ao carregar {image_name}. Pulando...")
+            
+        img_path = os.path.join(INPUT_IMAGE_DIR, img_name)
+        img, scale_factors = process_image(img_path)
+        
+        if img is None:
+            print(f"skipping invalid image: {img_name}")
             continue
-
-        original_height, original_width = image.shape[:2]
-
-        # Redimensiona a imagem
-        resized_image = cv2.resize(image, new_size)
-        resized_image_path = os.path.join(output_image_dir, image_name)
-        cv2.imwrite(resized_image_path, resized_image)
-
-        # Ajusta os rótulos (bounding boxes)
-        annotation_name = image_name.replace(".jpg", ".json")
-        annotation_path = os.path.join(annotation_dir, annotation_name)
-
-        if not os.path.exists(annotation_path):
-            print(f"Arquivo de anotação não encontrado para {image_name}. Pulando...")
+        
+        # save processed image
+        out_img_path = os.path.join(OUTPUT_IMAGE_DIR, img_name)
+        cv2.imwrite(out_img_path, img)
+        
+        # process corresponding annotation
+        ann_name = img_name.replace('.jpg', '.json')
+        ann_path = os.path.join(INPUT_ANNOTATION_DIR, ann_name)
+        
+        if not os.path.exists(ann_path):
+            print(f"annotation missing for {img_name}")
             continue
+            
+        updated_ann = process_annotation(ann_path, scale_factors)
+        
+        # save updated annotation
+        out_ann_path = os.path.join(OUTPUT_ANNOTATION_DIR, ann_name)
+        with open(out_ann_path, 'w') as f:
+            json.dump(updated_ann, f)
 
-        with open(annotation_path, "r") as f:
-            annotation = json.load(f)
+    print("image processing completed")
 
-        if not annotation["shapes"]:
-            print(f"Nenhum bounding box encontrado para {image_name}. Pulando...")
-            continue
-
-        # Ajusta as coordenadas dos bounding boxes
-        for shape in annotation["shapes"]:
-            points = shape["points"]
-            for point in points:
-                point[0] = point[0] * (new_size[0] / original_width)  # Ajusta X
-                point[1] = point[1] * (new_size[1] / original_height)  # Ajusta Y
-
-        # Salva o novo arquivo de anotação
-        resized_annotation_path = os.path.join(output_annotation_dir, annotation_name)
-        with open(resized_annotation_path, "w") as f:
-            json.dump(annotation, f)
-
-# Executa a função
-resize_images_and_annotations(image_dir, annotation_dir, output_image_dir, output_annotation_dir, new_size)
-print("Redimensionamento concluído!")
+if __name__ == "__main__":
+    main()
