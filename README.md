@@ -58,8 +58,3 @@ python src/app/realtime_parking_detector.py
     │   └── resize_dataset.py
     └── test.py
 ```
-
----
-
-## Licença
-MIT - [LICENSE](LICENSE)
