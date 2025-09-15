@@ -16,7 +16,7 @@ pip install -r requirements.txt
 
 ### 2. Download Dataset
 
-- Download the dataset [here](https://drive.google.com/drive/folders/14O0ukMquMIgOXa-5Hx-iz1jMh8zIkxNO?usp=drive_link)
+- Download the dataset [here](https://drive.google.com/drive/folders/1JycO-is7-qS4FMPF5KWqwNeS56z7pxHV?usp=drive_link)
 - Place the `parking-spot-dataset` folder at the root of the project
 
 ### 3. Process Data
