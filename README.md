@@ -44,7 +44,7 @@ python src/scripts/test_latest_model.py
 **Manual testing with video (choose model manually):**
 
 ```bash
-yolo predict model={model_path} source=./parking-spot-dataset/test/videos/test_parking_01.mp4 show=True save=True imgsz=1280 line_width=1 project=./predictions
+yolo predict model={model_path} source=./parking-spot-dataset/test/videos/test_parking_01.mp4 show=True save=True line_width=1 project=./predictions
 ```
 
 Replace `{model_path}` with the path to your desired model (e.g., `./results/result_2025-09-20_12:12:12/weights/best.pt`).
