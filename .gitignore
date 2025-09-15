@@ -2,4 +2,5 @@ venv/
 dataset/
 hotwheels-dataset/
 results/
+predictions/
 yolov8n.pt
