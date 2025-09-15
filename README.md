@@ -1,6 +1,6 @@
-# HotWheels Parking Spot Detector
+# Parking Spot Detector
 
-Parking space detection using YOLOv8 in a simulated environment (paper tracks + Hot Wheels). Includes data processing, training, and real-time inference.
+Parking space detection using YOLOv8. Includes data processing, training, and real-time inference.
 
 ---
 
@@ -11,14 +11,13 @@ Parking space detection using YOLOv8 in a simulated environment (paper tracks + 
 ```bash
 git clone https://github.com/marcosschlick/parking-spot-detector.git
 cd parking-spot-detector
-git checkout hotwheels
 pip install -r requirements.txt
 ```
 
 ### 2. Download Dataset
 
-- Download the dataset [here](https://drive.google.com/drive/folders/14O0ukMquMIgOXa-5Hx-iz1jMh8zIkxNO?usp=drive_link)
-- Place the `hotwheels-dataset` folder at the root of the project
+- Download the dataset [here](https://drive.google.com/drive/folders/1JycO-is7-qS4FMPF5KWqwNeS56z7pxHV?usp=drive_link)
+- Place the `parking-spot-dataset` folder at the root of the project
 
 ### 3. Process Data
 
@@ -45,16 +44,10 @@ python src/scripts/test_latest_model.py
 **Manual testing with video (choose model manually):**
 
 ```bash
-yolo predict model={model_path} source=./hotwheels-dataset/test/videos/test_hotwheels_01.mp4 show=True
+yolo predict model={model_path} source=./parking-spot-dataset/test/videos/test_parking_01.mp4 show=True save=True imgsz=1280 line_width=1 project=./predictions
 ```
 
 Replace `{model_path}` with the path to your desired model (e.g., `./results/result_2025-09-20_12:12:12/weights/best.pt`).
-
-**With real-time camera:**
-
-```bash
-python src/app/realtime_parking_detector.py
-```
 
 ---
 
@@ -63,12 +56,10 @@ python src/app/realtime_parking_detector.py
 ```
 ├── config.yaml
 ├── dataset
-├── hotwheels-dataset
+├── parking-spot-dataset
 ├── requirements.txt
 ├── results
 └── src
-    ├── app
-    │   └── realtime_parking_detector.py
     ├── data_processing
     │   ├── labelme_2_yolo.py
     │   ├── organize_dataset.py

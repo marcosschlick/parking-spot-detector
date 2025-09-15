@@ -2,11 +2,11 @@ import cv2
 import os
 import json
 
-INPUT_IMAGE_DIR = "hotwheels-dataset/raw/images"
-OUTPUT_IMAGE_DIR = "hotwheels-dataset/processed/images_resized" 
+INPUT_IMAGE_DIR = "parking-spot-dataset/raw/images"
+OUTPUT_IMAGE_DIR = "parking-spot-dataset/processed/images_resized" 
 
-INPUT_ANNOTATION_DIR = "hotwheels-dataset/raw/annotations"  
-OUTPUT_ANNOTATION_DIR = "hotwheels-dataset/processed/annotations_resized" 
+INPUT_ANNOTATION_DIR = "parking-spot-dataset/raw/annotations"  
+OUTPUT_ANNOTATION_DIR = "parking-spot-dataset/processed/annotations_resized" 
 
 TARGET_SIZE = 640
 PADDING_COLOR = (0, 0, 0) 
@@ -62,7 +62,7 @@ def process_annotation(annotation_path, scale_factors):
 def main():
     """process all images and annotations"""
     for img_name in os.listdir(INPUT_IMAGE_DIR):
-        if not img_name.lower().endswith('.jpg'):
+        if not img_name.lower().endswith('.png'):
             continue
             
         img_path = os.path.join(INPUT_IMAGE_DIR, img_name)
@@ -77,7 +77,7 @@ def main():
         cv2.imwrite(out_img_path, img)
         
         # process corresponding annotation
-        ann_name = img_name.replace('.jpg', '.json')
+        ann_name = img_name.replace('.png', '.json')
         ann_path = os.path.join(INPUT_ANNOTATION_DIR, ann_name)
         
         if not os.path.exists(ann_path):
