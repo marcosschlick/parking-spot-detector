@@ -2,8 +2,8 @@ import os
 import shutil
 from sklearn.model_selection import train_test_split
 
-IMAGE_DIR = "detector-vagas-hotwheels-dataset/processed/images_resized"
-ANNOTATION_DIR = "detector-vagas-hotwheels-dataset/processed/annotations_yolo"
+IMAGE_DIR = "hotwheels-dataset/processed/images_resized"
+ANNOTATION_DIR = "hotwheels-dataset/processed/annotations_yolo"
 OUTPUT_DIR = "dataset"
 
 # create output structure

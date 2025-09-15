@@ -1,8 +1,8 @@
 import json
 import os
 
-ANNOTATION_DIR = "detector-vagas-hotwheels-dataset/processed/annotations_resized"
-OUTPUT_DIR = "detector-vagas-hotwheels-dataset/processed/annotations_yolo"
+ANNOTATION_DIR = "hotwheels-dataset/processed/annotations_resized"
+OUTPUT_DIR = "hotwheels-dataset/processed/annotations_yolo"
 IMG_SIZE = 640  
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
