@@ -49,12 +49,6 @@ yolo predict model={model_path} source=./parking-spot-dataset/test/videos/test_p
 
 Replace `{model_path}` with the path to your desired model (e.g., `./results/result_2025-09-20_12:12:12/weights/best.pt`).
 
-**With real-time camera:**
-
-```bash
-python src/app/realtime_parking_detector.py
-```
-
 ---
 
 ## Project Structure
@@ -66,8 +60,6 @@ python src/app/realtime_parking_detector.py
 ├── requirements.txt
 ├── results
 └── src
-    ├── app
-    │   └── realtime_parking_detector.py
     ├── data_processing
     │   ├── labelme_2_yolo.py
     │   ├── organize_dataset.py
