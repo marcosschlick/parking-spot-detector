@@ -2,4 +2,5 @@ venv/
 dataset/
 parking-spot-dataset/
 results/
+predictions/
 yolov8n.pt
