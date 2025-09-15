@@ -1,8 +1,17 @@
 import cv2
+import os
 from ultralytics import YOLO
 
+# Find the most recent directory in the results folder
+results_dir = "./results"  
+all_subdirs = [os.path.join(results_dir, d) for d in os.listdir(results_dir) 
+               if os.path.isdir(os.path.join(results_dir, d)) and d.startswith("result_")]
+latest_dir = max(all_subdirs, key=os.path.getmtime)
+
+# Build the path to the best model
+MODEL_PATH = os.path.join(latest_dir, "weights", "best.pt")
+
 # load trained model
-MODEL_PATH = "runs/detect/train/weights/best.pt"
 model = YOLO(MODEL_PATH)
 
 # select camera (0 for default, 1 for secondary)
@@ -40,7 +49,7 @@ while is_running:
     
     # visualize results on frame
     annotated_frame = results[0].plot()
-    cv2.imshow("Detector de vagas HotWheels", annotated_frame)
+    cv2.imshow("HotWheels Parking Spot Detector", annotated_frame)
 
 camera.release()
 cv2.destroyAllWindows()

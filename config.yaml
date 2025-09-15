@@ -1,10 +1,23 @@
+# Paths
 train: dataset/images/train
 val: dataset/images/val
 
+# Classes
 nc: 2
 names: ["available", "occupied"]
 
-augment: true
-hsv_h: 0.1
-hsv_s: 0.7
-flipud: 0.5
+# Hyperparameters
+lr0: 0.01 # Initial learning rate
+lrf: 0.01 # Final learning rate (lr0 * lrf)
+weight_decay: 0.0005 # Weight decay for regularization
+optimizer: auto # Auto-select best optimizer (SGD, Adam, etc.)
+
+# Augmentations
+augment: true # Enable data augmentation
+hsv_h: 0.015 # Hue adjustment
+hsv_s: 0.7 # Saturation adjustment
+hsv_v: 0.4 # Value (brightness) adjustment
+flipud: 0.5 # Vertical flip probability
+translate: 0.1 # Translation augmentation
+scale: 0.5 # Scale augmentation
+mosaic: 1.0 # Mosaic augmentation probability

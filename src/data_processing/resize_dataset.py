@@ -2,11 +2,11 @@ import cv2
 import os
 import json
 
-INPUT_IMAGE_DIR = "detector-vagas-hotwheels-dataset/raw/images"
-OUTPUT_IMAGE_DIR = "detector-vagas-hotwheels-dataset/processed/images_resized" 
+INPUT_IMAGE_DIR = "hotwheels-dataset/raw/images"
+OUTPUT_IMAGE_DIR = "hotwheels-dataset/processed/images_resized" 
 
-INPUT_ANNOTATION_DIR = "detector-vagas-hotwheels-dataset/raw/annotations"  
-OUTPUT_ANNOTATION_DIR = "detector-vagas-hotwheels-dataset/processed/annotations_resized" 
+INPUT_ANNOTATION_DIR = "hotwheels-dataset/raw/annotations"  
+OUTPUT_ANNOTATION_DIR = "hotwheels-dataset/processed/annotations_resized" 
 
 TARGET_SIZE = 640
 PADDING_COLOR = (0, 0, 0) 
