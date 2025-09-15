@@ -31,7 +31,7 @@ python src/data_processing/organize_dataset.py
 ### 4. Train Model
 
 ```bash
-yolo train data=config.yaml model=yolov8n.pt epochs=10 imgsz=640 project=./results name="result_$(date +'%Y-%m-%d_%H:%M:%S')"
+yolo train data=config.yaml model=yolov8n.pt epochs=30 imgsz=640 project=./results name="result_$(date +'%Y-%m-%d_%H:%M:%S')"
 ```
 
 ### 5. Test
