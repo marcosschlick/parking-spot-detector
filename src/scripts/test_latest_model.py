@@ -16,6 +16,6 @@ if not os.path.exists(model_path):
 
 # Execute the prediction command
 video_source = "./hotwheels-dataset/test/videos/test_hotwheels_01.mp4"
-command = f"yolo predict model={model_path} source={video_source} show=True"
+command = f"yolo predict model={model_path} source={video_source} show=True save=True line_width=1 project=./predictions"
 
 subprocess.run(command, shell=True, check=True)
