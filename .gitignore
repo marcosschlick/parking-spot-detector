@@ -1,5 +1,5 @@
 venv/
 dataset/
-hotwheels-dataset/
+parking-spot-dataset/
 results/
 yolov8n.pt
