@@ -1,6 +1,19 @@
+# python virtual environment
 venv/
+
+# pyenv version file
+.python-version
+
+# byte-compiled Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Project-generated data directories
 dataset/
 parking-spot-dataset/
-results/
 predictions/
-yolov8n.pt
+results/
+
+# YOLO model files 
+*.pt
