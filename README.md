@@ -49,6 +49,22 @@ yolo predict model={model_path} source=./parking-spot-dataset/test/videos/test_p
 
 Replace `{model_path}` with the path to your desired model (e.g., `./results/result_2025-09-20_12:12:12/weights/best.pt`).
 
+### 6. Test API
+
+**Start the API server:**
+
+```bash
+python src/api/app.py
+```
+
+**Test with curl:**
+
+```bash
+curl -X POST -F "image=@images-api-test/image_01.png" http://localhost:5000/detect/image
+```
+
+The API will return a JSON response with parking space detection results.
+
 ---
 
 ## Project Structure
