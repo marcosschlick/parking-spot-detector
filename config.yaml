@@ -5,7 +5,7 @@ mode: train
 # Train settings
 data: dataset/data.yaml # path to data file
 epochs: 100 # number of epochs to train for
-patience: 5 # early stop after N epochs without val improvement
+patience: 10 # early stop after N epochs without val improvement
 imgsz: 640 # (int | list) train/val use int (square); predict/export may use [h,w]
 save: True # save train checkpoints and predict results
 save_period: 10 # save checkpoint every N epochs; disabled if < 1
