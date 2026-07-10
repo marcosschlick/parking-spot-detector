@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 IMAGE_DIR = "parking-spot-dataset/processed/images_resized"
 ANNOTATION_DIR = "parking-spot-dataset/processed/annotations_yolo"
 OUTPUT_DIR = "dataset"
+DATA_YAML = os.path.join(OUTPUT_DIR, "data.yaml")
 
 # create output structure
 os.makedirs(f"{OUTPUT_DIR}/images/train", exist_ok=True)
@@ -32,5 +33,13 @@ for files, split in [(train_files, "train"), (val_files, "val")]:
         src = os.path.join(ANNOTATION_DIR, ann)
         dst = os.path.join(OUTPUT_DIR, "labels", split, ann)
         shutil.move(src, dst)
+
+with open(DATA_YAML, "w") as f:
+    f.write(
+        'train: images/train\n'
+        'val: images/val\n'
+        'nc: 2\n'
+        'names: ["available", "occupied"]\n'
+    )
 
 print("dataset organized successfully")

@@ -9,7 +9,6 @@ patience: 10 # early stop after N epochs without val improvement
 imgsz: 640 # (int | list) train/val use int (square); predict/export may use [h,w]
 save: True # save train checkpoints and predict results
 save_period: 10 # save checkpoint every N epochs; disabled if < 1
-device: 0 # device: 0 or [0,1,2,3] for CUDA, 'cpu'/'mps', or -1/[-1,-1] to auto-select idle GPUs
 # project parameter was commented out because we are using ARGS parameters
 # project: results # (project name for results root
 name: "result" # experiment name; results in 'project/name'

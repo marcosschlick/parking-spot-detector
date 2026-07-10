@@ -1,14 +1,19 @@
 import os
 import subprocess
 
-# Find the most recent directory in the results folder
-results_dir = "./results"  
-all_subdirs = [os.path.join(results_dir, d) for d in os.listdir(results_dir) 
-               if os.path.isdir(os.path.join(results_dir, d)) and d.startswith("result_")]
-latest_dir = max(all_subdirs, key=os.path.getmtime)
+MODEL_VERSION = "yolov8"
 
-# Build the path to the best model
-model_path = os.path.join(latest_dir, "weights", "best.pt")
+MODEL_PATHS = {
+    "yolov8": "./results/yolo_v8/result/weights/best.pt",
+    "yolov9": "./results/yolo_v9/result/weights/best.pt",
+    "yolov10": "./results/yolo_v10/result/weights/best.pt",
+    "yolov11": "./results/yolo_v11/result/weights/best.pt",
+}
+
+model_path = MODEL_PATHS.get(MODEL_VERSION)
+if not model_path:
+    supported_versions = ", ".join(MODEL_PATHS)
+    raise ValueError(f"Unsupported model version '{MODEL_VERSION}'. Use one of: {supported_versions}")
 
 # Verify if the model file exists
 if not os.path.exists(model_path):

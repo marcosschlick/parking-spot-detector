@@ -1,12 +1,10 @@
 # Parking Spot Detector
 
-Parking space detection using YOLOv8. Includes data processing, training, and real-time inference.
+Parking spot detection for real parking images using YOLO. This branch includes data processing, training scripts for multiple YOLO versions, video testing, and a small Flask API for image detection.
 
----
+For the simplified YOLOv8 project using HotWheels cars in a simulated parking environment, see the [`hotwheels`](https://github.com/marcosschlick/parking-spot-detector/tree/hotwheels) branch.
 
-## How to Use
-
-### 1. Clone and Setup
+## Setup
 
 ```bash
 git clone https://github.com/marcosschlick/parking-spot-detector.git
@@ -14,12 +12,24 @@ cd parking-spot-detector
 pip install -r requirements.txt
 ```
 
-### 2. Download Dataset
+## Dataset
 
-- Download the dataset [here](https://drive.google.com/drive/folders/1JycO-is7-qS4FMPF5KWqwNeS56z7pxHV?usp=drive_link)
-- Place the `parking-spot-dataset` folder at the root of the project
+Download the parking spot dataset and place it at the project root:
 
-### 3. Process Data
+```text
+parking-spot-dataset/
+```
+
+Expected raw data layout:
+
+```text
+parking-spot-dataset/raw/images
+parking-spot-dataset/raw/annotations
+```
+
+## Preprocess Data
+
+Run the processing scripts in order:
 
 ```bash
 python src/data_processing/resize_dataset.py
@@ -27,60 +37,69 @@ python src/data_processing/labelme_2_yolo.py
 python src/data_processing/organize_dataset.py
 ```
 
-### 4. Train Model
+The last command creates the YOLO dataset structure in `dataset/` and generates `dataset/data.yaml`.
+
+## Train
+
+Use one of the version-specific training scripts:
 
 ```bash
-yolo train data=config.yaml model=yolov8n.pt epochs=30 imgsz=640 project=./results name="result_$(date +'%Y-%m-%d_%H:%M:%S')"
+python src/scripts/train_model_v8.py
+python src/scripts/train_model_v9.py
+python src/scripts/train_model_v10.py
+python src/scripts/train_model_v11.py
 ```
 
-### 5. Test
+Each script uses `config.yaml` and saves results under a version-specific folder:
 
-**Automatic testing with video (uses latest model):**
+```text
+results/yolo_v8/result/weights/best.pt
+results/yolo_v9/result/weights/best.pt
+results/yolo_v10/result/weights/best.pt
+results/yolo_v11/result/weights/best.pt
+```
+
+## Test With Video
+
+The default test script uses YOLOv8:
 
 ```bash
 python src/scripts/test_latest_model.py
 ```
 
-**Manual testing with video (choose model manually):**
+To test another version, change `MODEL_VERSION` at the top of `src/scripts/test_latest_model.py`.
 
-```bash
-yolo predict model={model_path} source=./parking-spot-dataset/test/videos/test_parking_01.mp4 show=True save=True line_width=1 project=./predictions
-```
+## API
 
-Replace `{model_path}` with the path to your desired model (e.g., `./results/result_2025-09-20_12:12:12/weights/best.pt`).
-
-### 6. Test API
-
-**Start the API server:**
+Start the API server:
 
 ```bash
 python src/api/app.py
 ```
 
-**Test with curl:**
+Test with the default YOLOv8 model:
 
 ```bash
 curl -X POST -F "image=@images-api-test/image_01.png" http://localhost:5000/detect/image
 ```
 
-The API will return a JSON response with parking space detection results.
+Test a specific YOLO version:
 
----
+```bash
+curl -X POST -F "image=@images-api-test/image_01.png" "http://localhost:5000/detect/image?version=yolov11"
+```
+
+Supported versions are `yolov8`, `yolov9`, `yolov10`, and `yolov11`.
 
 ## Project Structure
 
-```
-├── config.yaml
-├── dataset
-├── parking-spot-dataset
-├── requirements.txt
-├── results
-└── src
-    ├── data_processing
-    │   ├── labelme_2_yolo.py
-    │   ├── organize_dataset.py
-    │   └── resize_dataset.py
-    └── scripts
-        ├── check_dependencies.py
-        └── test_latest_model.py
+```text
+config.yaml
+images-api-test/
+parking-spot-dataset/
+requirements.txt
+src/
+  api/
+  data_processing/
+  scripts/
 ```

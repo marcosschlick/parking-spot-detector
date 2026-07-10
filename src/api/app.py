@@ -11,18 +11,26 @@ def status():
 
 @app.route('/detect/image', methods=['POST'])
 def detect_image():
-        
-    version = 'yolov8' 
-    model = load_model(version)
+    version = request.args.get("version", "yolov8")
 
     # Check if an image was received
     if 'image' not in request.files:
         return jsonify({"error": "No image provided"}), 400
-    
+
+    try:
+        model = load_model(version)
+    except ValueError as error:
+        return jsonify({"error": str(error)}), 400
+    except FileNotFoundError as error:
+        return jsonify({"error": str(error)}), 404
+
     # Read the image
     file = request.files['image']
     npimg = np.frombuffer(file.read(), np.uint8)
     img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+
+    if img is None:
+        return jsonify({"error": "Invalid image"}), 400
 
     # Perform detection
     results = model(img)
