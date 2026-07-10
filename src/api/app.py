@@ -11,7 +11,9 @@ def status():
 
 @app.route('/detect/image', methods=['POST'])
 def detect_image():
-    model = load_model()
+        
+    version = 'yolov8' 
+    model = load_model(version)
 
     # Check if an image was received
     if 'image' not in request.files:
