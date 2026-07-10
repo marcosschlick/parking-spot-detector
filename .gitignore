@@ -1,6 +1,11 @@
 venv/
+.python-version
+__pycache__/
+*.py[cod]
+*$py.class
+
 dataset/
 hotwheels-dataset/
 results/
 predictions/
-yolov8n.pt
+*.pt

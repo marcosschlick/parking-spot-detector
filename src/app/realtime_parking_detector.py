@@ -2,20 +2,13 @@ import cv2
 import os
 from ultralytics import YOLO
 
-# Find the most recent directory in the results folder
-results_dir = "./results"  
-all_subdirs = [os.path.join(results_dir, d) for d in os.listdir(results_dir) 
-               if os.path.isdir(os.path.join(results_dir, d)) and d.startswith("result_")]
-latest_dir = max(all_subdirs, key=os.path.getmtime)
+MODEL_PATH = "./results/yolo_v8/result/weights/best.pt"
+CAMERA_INDEX = 0
 
-# Build the path to the best model
-MODEL_PATH = os.path.join(latest_dir, "weights", "best.pt")
+if not os.path.exists(MODEL_PATH):
+    raise FileNotFoundError(f"Model not found: {MODEL_PATH}")
 
-# load trained model
 model = YOLO(MODEL_PATH)
-
-# select camera (0 for default, 1 for secondary)
-CAMERA_INDEX = 0  
 
 camera = cv2.VideoCapture(CAMERA_INDEX)
 is_running = True

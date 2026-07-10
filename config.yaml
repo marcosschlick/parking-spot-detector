@@ -1,23 +1,18 @@
-# Paths
-train: dataset/images/train
-val: dataset/images/val
+# Basic settings
+task: detect
+mode: train
 
-# Classes
-nc: 2
-names: ["available", "occupied"]
+# Train settings
+data: dataset/data.yaml # path to data file
+epochs: 100 # number of epochs to train for
+patience: 10 # early stop after N epochs without val improvement
+imgsz: 640 # train/val image size
+save: True # save train checkpoints and predict results
+save_period: 10 # save checkpoint every N epochs; disabled if < 1
+name: "result" # experiment name; results in 'project/name'
 
-# Hyperparameters
-lr0: 0.01 # Initial learning rate
-lrf: 0.01 # Final learning rate (lr0 * lrf)
-weight_decay: 0.0005 # Weight decay for regularization
-optimizer: auto # Auto-select best optimizer (SGD, Adam, etc.)
-
-# Augmentations
-augment: true # Enable data augmentation
-hsv_h: 0.015 # Hue adjustment
-hsv_s: 0.7 # Saturation adjustment
-hsv_v: 0.4 # Value (brightness) adjustment
-flipud: 0.5 # Vertical flip probability
-translate: 0.1 # Translation augmentation
-scale: 0.5 # Scale augmentation
-mosaic: 1.0 # Mosaic augmentation probability
+# Data augmentation settings
+hsv_h: 0.015 # hue adjustment
+hsv_s: 0.7 # saturation adjustment
+hsv_v: 0.4 # brightness adjustment
+scale: 0.5 # resizes images

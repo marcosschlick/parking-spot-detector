@@ -1,12 +1,8 @@
 # HotWheels Parking Spot Detector
 
-Parking space detection using YOLOv8 in a simulated environment (paper tracks + Hot Wheels). Includes data processing, training, and real-time inference.
+Parking spot detection with YOLOv8 in a simulated HotWheels environment. This branch is intentionally simple: it includes data processing, YOLOv8 training, video testing, and realtime webcam detection.
 
----
-
-## How to Use
-
-### 1. Clone and Setup
+## Setup
 
 ```bash
 git clone https://github.com/marcosschlick/parking-spot-detector.git
@@ -15,12 +11,24 @@ git checkout hotwheels
 pip install -r requirements.txt
 ```
 
-### 2. Download Dataset
+## Dataset
 
-- Download the dataset [here](https://drive.google.com/drive/folders/14O0ukMquMIgOXa-5Hx-iz1jMh8zIkxNO?usp=drive_link)
-- Place the `hotwheels-dataset` folder at the root of the project
+Download the HotWheels dataset and place it at the project root:
 
-### 3. Process Data
+```text
+hotwheels-dataset/
+```
+
+Expected raw data layout:
+
+```text
+hotwheels-dataset/raw/images
+hotwheels-dataset/raw/annotations
+```
+
+## Preprocess Data
+
+Run the processing scripts in order:
 
 ```bash
 python src/data_processing/resize_dataset.py
@@ -28,52 +36,46 @@ python src/data_processing/labelme_2_yolo.py
 python src/data_processing/organize_dataset.py
 ```
 
-### 4. Train Model
+The last command creates the YOLO dataset structure in `dataset/` and generates `dataset/data.yaml`.
+
+## Train
+
+Train the YOLOv8 model:
 
 ```bash
-yolo train data=config.yaml model=yolov8n.pt epochs=30 imgsz=640 project=./results name="result_$(date +'%Y-%m-%d_%H:%M:%S')"
+python src/scripts/train_model_v8.py
 ```
 
-### 5. Test
+The trained model is saved at:
 
-**Automatic testing with video (uses latest model):**
+```text
+results/yolo_v8/result/weights/best.pt
+```
+
+## Test With Video
 
 ```bash
 python src/scripts/test_latest_model.py
 ```
 
-**Manual testing with video (choose model manually):**
+## Realtime Detection
 
-```bash
-yolo predict model={model_path} source=./hotwheels-dataset/test/videos/test_hotwheels_01.mp4 show=True save=True line_width=1 project=./predictions
-```
-
-Replace `{model_path}` with the path to your desired model (e.g., `./results/result_2025-09-20_12:12:12/weights/best.pt`).
-
-**With real-time camera:**
+Run the webcam detector:
 
 ```bash
 python src/app/realtime_parking_detector.py
 ```
 
----
+The detector expects the trained YOLOv8 model at `results/yolo_v8/result/weights/best.pt`.
 
 ## Project Structure
 
-```
-├── config.yaml
-├── dataset
-├── hotwheels-dataset
-├── requirements.txt
-├── results
-└── src
-    ├── app
-    │   └── realtime_parking_detector.py
-    ├── data_processing
-    │   ├── labelme_2_yolo.py
-    │   ├── organize_dataset.py
-    │   └── resize_dataset.py
-    └── scripts
-        ├── check_dependencies.py
-        └── test_latest_model.py
+```text
+config.yaml
+hotwheels-dataset/
+requirements.txt
+src/
+  app/
+  data_processing/
+  scripts/
 ```
