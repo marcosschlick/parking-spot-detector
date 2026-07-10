@@ -2,6 +2,8 @@
 
 Parking spot detection with YOLOv8 in a simulated HotWheels environment. This branch is intentionally simple: it includes data processing, YOLOv8 training, video testing, and realtime webcam detection.
 
+For detection with real parking images and comparison between multiple YOLO versions, see the [`main`](https://github.com/marcosschlick/parking-spot-detector) branch.
+
 ## Setup
 
 ```bash
@@ -73,9 +75,16 @@ The detector expects the trained YOLOv8 model at `results/yolo_v8/result/weights
 ```text
 config.yaml
 hotwheels-dataset/
+LICENSE
 requirements.txt
 src/
   app/
   data_processing/
   scripts/
 ```
+
+## License
+
+The source code in this project is licensed under the [MIT License](LICENSE).
+
+Datasets, third-party dependencies, and pretrained YOLO models are subject to their respective licenses and terms of use.
