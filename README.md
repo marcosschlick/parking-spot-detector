@@ -96,6 +96,7 @@ Supported versions are `yolov8`, `yolov9`, `yolov10`, and `yolov11`.
 ```text
 config.yaml
 images-api-test/
+LICENSE
 parking-spot-dataset/
 requirements.txt
 src/
@@ -103,3 +104,9 @@ src/
   data_processing/
   scripts/
 ```
+
+## License
+
+The source code in this project is licensed under the [MIT License](LICENSE).
+
+Datasets, third-party dependencies, and pretrained YOLO models are subject to their respective licenses and terms of use.
